@@ -48,7 +48,7 @@ class MyBot:
         chat_id = update.effective_chat.id
         message = context.bot_data.get(f"custom_message_{chat_id}", "✅ Everything is done, take your time!")
         try:
-            message_admin = f'Tasks for {MyBot.get_name_by_id(chat_id)}\n{message}' 
+            message_admin = f'Tasks for {MyBot.get_name_by_id(str(chat_id))}\n{message}' 
         except Exception as e:
             print(e)
             message_admin = message
