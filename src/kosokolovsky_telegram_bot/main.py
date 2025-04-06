@@ -51,7 +51,7 @@ class MyBot:
             message_admin = f'Tasks for {MyBot.get_name_by_id(str(chat_id))}\n{message}' 
         except Exception as e:
             print(e)
-            message_admin = message
+            message_admin = 'TEST\n' + message
         
         await context.bot.send_message(chat_id=chat_id, text=message, parse_mode='MarkdownV2')
         await context.bot.send_message(chat_id=MyBot.get_admin_id(), text=message_admin, parse_mode='MarkdownV2')
