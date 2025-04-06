@@ -40,7 +40,7 @@ class MyBot:
 
     @staticmethod
     def get_name_by_id(id: str) -> str:
-        creds_path = os.path.join(os.path.dirname(__file__), "../../creds.ini")
+        creds_path = "/home/ubuntu/tutor_bot/creds.ini"
         config = configparser.ConfigParser()
         config.read(creds_path)
         return config["ID_USERS"][id]
