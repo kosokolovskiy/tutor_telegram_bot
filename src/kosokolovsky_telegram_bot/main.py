@@ -53,7 +53,7 @@ class MyBot:
     @staticmethod
     async def check(update, context):
         chat_id = update.effective_chat.id
-        message = context.bot_data.get(f"custom_message_{chat_id}", "✅ Everything is done, take your time!")
+        message = context.bot_data.get(f"custom_message_{chat_id}", "✅ Everything is done, take your time")
         logging.info(f"Chat ID: {chat_id}")
         logging.info(f"Message: {message}")
         try:
