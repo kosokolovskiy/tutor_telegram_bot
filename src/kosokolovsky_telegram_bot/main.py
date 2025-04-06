@@ -3,6 +3,18 @@ from telegram.ext import ApplicationBuilder, CommandHandler
 from telegram.helpers import escape_markdown
 import configparser
 import os
+import logging
+import sys
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("bot_stdout.log"),  
+        logging.FileHandler("bot_stderr.log"),  
+        logging.StreamHandler(sys.stdout)       
+    ]
+)
 
 class MyBot:
 
@@ -50,6 +62,8 @@ class MyBot:
     async def check(update, context):
         chat_id = update.effective_chat.id
         message = context.bot_data.get(f"custom_message_{chat_id}", "✅ Everything is done, take your time!")
+        logging.info(f"Chat ID: {chat_id}")
+        logging.info(f"Message: {message}")
         try:
             message_admin = f'Tasks for {MyBot.get_name_by_id(str(chat_id))}\n{message}' 
         except Exception as e:
