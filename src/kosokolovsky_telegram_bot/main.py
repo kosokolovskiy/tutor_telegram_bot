@@ -54,7 +54,7 @@ class MyBot:
             message_admin = 'TEST\n' + message
         
         await context.bot.send_message(chat_id=chat_id, text=message, parse_mode='MarkdownV2')
-        await context.bot.send_message(chat_id=MyBot.get_admin_id(), text=message_admin, parse_mode='MarkdownV2')
+        await context.bot.send_message(chat_id=MyBot.get_admin_id(), text='SECOND TEST' + message_admin, parse_mode='MarkdownV2')
 
     @staticmethod
     def send_formatted_message(app, chat_id, message):
