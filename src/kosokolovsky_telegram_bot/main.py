@@ -54,8 +54,8 @@ class MyBot:
     async def check(update, context):
         chat_id = update.effective_chat.id
         message = context.bot_data.get(f"custom_message_{chat_id}", "✅ Everything is done, take your time!")
-        print(f"Chat ID: {chat_id}")
-        print(f"Message: {message}")
+        logging.info(f"Chat ID: {chat_id}")
+        logging.info(f"Message: {message}")
         try:
             message_admin = f'Tasks for {MyBot.get_name_by_id(str(chat_id))}\n{message}' 
         except Exception as e:
