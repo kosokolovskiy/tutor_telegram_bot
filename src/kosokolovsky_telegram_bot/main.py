@@ -10,11 +10,10 @@ logging.basicConfig(
     level=logging.INFO,
     format='[%(asctime)s] %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("bot_stdout.log"),  
-        logging.FileHandler("bot_stderr.log"),  
-        logging.StreamHandler(sys.stdout)       
+        logging.StreamHandler(sys.stdout)
     ]
 )
+
 
 class MyBot:
 
