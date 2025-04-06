@@ -2,6 +2,7 @@ import requests
 from telegram.ext import ApplicationBuilder, CommandHandler
 from telegram.helpers import escape_markdown
 import configparser
+import os
 
 class MyBot:
 
@@ -31,15 +32,17 @@ class MyBot:
 
     @staticmethod
     def get_admin_id() -> int:
+        creds_path = os.path.join(os.path.dirname(__file__), "../../creds.ini")
         config = configparser.ConfigParser()
-        config.read("creds.ini")
+        config.read(creds_path)
         return int(config["USERS"]["admin"])
 
 
     @staticmethod
     def get_name_by_id(id: str) -> str:
+        creds_path = os.path.join(os.path.dirname(__file__), "../../creds.ini")
         config = configparser.ConfigParser()
-        config.read("creds.ini")
+        config.read(creds_path)
         return config["ID_USERS"][id]
 
 
