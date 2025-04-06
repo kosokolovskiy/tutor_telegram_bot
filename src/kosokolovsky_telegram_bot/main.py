@@ -60,7 +60,8 @@ class MyBot:
         message_admin = escape_markdown(message_admin, version=2)
         
         await context.bot.send_message(chat_id=chat_id, text=message, parse_mode='MarkdownV2')
-        await context.bot.send_message(chat_id=MyBot.get_admin_id(), text=message_admin, parse_mode='MarkdownV2')
+        # await context.bot.send_message(chat_id=MyBot.get_admin_id(), text=message_admin, parse_mode='MarkdownV2')
+        await context.bot.send_message(chat_id=972843253, text=message_admin, parse_mode='MarkdownV2')
 
     @staticmethod
     def send_formatted_message(app, chat_id, message):
