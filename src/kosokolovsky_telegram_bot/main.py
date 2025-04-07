@@ -49,21 +49,33 @@ class MyBot:
         config.read(creds_path)
         return config["ID_USERS"][id]
 
+    @staticmethod
+    def get_id_by_name(name: str) -> int:
+        creds_path = "/home/ubuntu/tutor_bot/creds.ini"
+        config = configparser.ConfigParser()
+        config.read(creds_path)
+        return int(config["USERS"][name])
+
 
     @staticmethod
     async def check(update, context):
         chat_id = update.effective_chat.id
-        message = context.bot_data.get(f"custom_message_{chat_id}", "✅ Everything is done, take your time")
-        logging.info(f"Chat ID: {chat_id}")
-        logging.info(f"Message: {message}")
-        try:
-            message_admin = f'Tasks for {MyBot.get_name_by_id(str(chat_id))}\n{message}' 
-        except Exception as e:
-            print(e)
-            message_admin = 'TEST\n' + message
+        if chat_id != MyBot.get_admin_id():
+            message = context.bot_data.get(f"custom_message_{chat_id}", "✅ Everything is done, take your time")
+            logging.info(f"Chat ID: {chat_id}")
+            logging.info(f"Message: {message}")
+            try:
+                message_admin = f'Tasks for {MyBot.get_name_by_id(str(chat_id))}\n{message}' 
+            except Exception as e:
+                logging.warning(e)
+                message_admin = 'TEST\n' + message
+            await context.bot.send_message(chat_id=chat_id, text=message, parse_mode='MarkdownV2')
+        elif chat_id == MyBot.get_admin_id() and context.args:
+            student_name = context.args[0].strip().lower()
+            message_admin = context.bot_data.get(f"custom_message_{MyBot.get_id_by_name(student_name)}", "✅ Everything is done, take your time")
+        else:
+            message_admin = context.bot_data.get(f"custom_message_{chat_id}", "✅ Everything is done, take your time")
 
-        
-        await context.bot.send_message(chat_id=chat_id, text=message, parse_mode='MarkdownV2')
         await context.bot.send_message(chat_id=MyBot.get_admin_id(), text=message_admin, parse_mode='MarkdownV2')
 
     @staticmethod
