@@ -76,6 +76,9 @@ class MyBot:
         else:
             message_admin = context.bot_data.get(f"custom_message_{chat_id}", "✅ Everything is done, take your time")
 
+        if not message_admin:
+            message_admin = 'User not Found'
+
         await context.bot.send_message(chat_id=MyBot.get_admin_id(), text=message_admin, parse_mode='MarkdownV2')
 
     @staticmethod
