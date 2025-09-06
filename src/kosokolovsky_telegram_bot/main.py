@@ -36,7 +36,8 @@ class MyBot:
 
     @staticmethod
     def get_admin_id() -> int:
-        creds_path = "/home/ubuntu/tutor_bot/creds.ini"
+        # creds_path = "/home/ubuntu/tutor_bot/creds.ini"
+        creds_path = "/Users/konstantinsokolovskiy/Desktop/web_scrapping/polyakov_23_24/files/tutor_telegram_bot/creds.ini"
         config = configparser.ConfigParser()
         config.read(creds_path)
         return int(config["USERS"]["admin"])
@@ -44,26 +45,40 @@ class MyBot:
 
     @staticmethod
     def get_name_by_id(id: str) -> str:
-        creds_path = "/home/ubuntu/tutor_bot/creds.ini"
+        # creds_path = "/home/ubuntu/tutor_bot/creds.ini"
+        creds_path = "/Users/konstantinsokolovskiy/Desktop/web_scrapping/polyakov_23_24/files/tutor_telegram_bot/creds.ini"
         config = configparser.ConfigParser()
         config.read(creds_path)
         return config["ID_USERS"][id]
 
     @staticmethod
     def get_id_by_name(name: str) -> int:
-        creds_path = "/home/ubuntu/tutor_bot/creds.ini"
+        # creds_path = "/home/ubuntu/tutor_bot/creds.ini"
+        creds_path = "/Users/konstantinsokolovskiy/Desktop/web_scrapping/polyakov_23_24/files/tutor_telegram_bot/creds.ini"
         config = configparser.ConfigParser()
         config.read(creds_path)
-        return int(config["USERS"][name])
+        return int(config["USERS"].get(name, 'None'))
+
+    @staticmethod
+    def check_name_existence(name: str) -> bool:
+        # creds_path = "/home/ubuntu/tutor_bot/creds.ini"
+        creds_path = "/Users/konstantinsokolovskiy/Desktop/web_scrapping/polyakov_23_24/files/tutor_telegram_bot/creds.ini"
+        config = configparser.ConfigParser()
+        config.read(creds_path)
+        return name in config["USERS"]
 
 
     @staticmethod
     async def check(update, context):
         chat_id = update.effective_chat.id
+        if context.args:
+            student_name = context.args[0].strip().lower()
+            if not MyBot.check_name_existence(student_name):
+                await context.bot.send_message(chat_id=chat_id, text="User not found")
+                return
+
         if chat_id != MyBot.get_admin_id():
             message = context.bot_data.get(f"custom_message_{chat_id}", "✅ Everything is done, take your time")
-            logging.info(f"Chat ID: {chat_id}")
-            logging.info(f"Message: {message}")
             try:
                 message_admin = f'Tasks for {MyBot.get_name_by_id(str(chat_id))}\n{message}' 
             except Exception as e:
@@ -95,3 +110,8 @@ class MyBot:
         app.add_handler(CommandHandler('get_id', MyBot.get_id))
         app.add_handler(CommandHandler('check', MyBot.check))
         return app
+
+
+# TOKEN = '7679273541:AAGMs3VDQGGmdwtxFuoA5glaAdflxFTlLCc'
+# app = MyBot.run_bot(TOKEN)
+# app.run_polling()
